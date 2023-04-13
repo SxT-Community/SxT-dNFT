@@ -43,10 +43,15 @@ const requestConfig = {
   // Args (string only array) can be accessed within the source code with `args[index]` (ie: args[0]).
   // args: ["1", "bitcoin", "btc-bitcoin", "btc", "1000000", "450"],
   
-  // 1337
-  args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x12b1CF04990cf30233D42f21bD5EeDe3d9899D3A'", "SE_PLAYGROUND.DNFT_0"],
-  // Noob
-  //args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0xeC50231aED126eBAe28c17b25bfe4AF0Bad1463F'", "SE_PLAYGROUND.DNFT_0"],
+  // 1337 - 42
+  // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x12b1CF04990cf30233D42f21bD5EeDe3d9899D3A'", "SE_PLAYGROUND.DNFT_0"],
+  // Noob  - 3
+  args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0xeC50231aED126eBAe28c17b25bfe4AF0Bad1463F'", "SE_PLAYGROUND.DNFT_0"],
+  // Warrior - 16
+  // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x2A98F5f920668405a158bE44E495101dd676E95E'", "SE_PLAYGROUND.DNFT_0"],
+  // VIP - 29
+  // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x6A78521af18456C31C4597877F0C8D9BEbFd0F2C'", "SE_PLAYGROUND.DNFT_0"],
+
 
   // Expected type of the returned value
   expectedReturnType: ReturnType.uint256,
