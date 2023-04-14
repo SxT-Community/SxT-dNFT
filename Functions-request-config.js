@@ -32,26 +32,21 @@ const requestConfig = {
   // location of secrets (Inline or Remote)
   secretsLocation: Location.Inline,
   source: fs.readFileSync("./query-SxT-update-NFT.js").toString(),
-  //source: fs.readFileSync('./API-request-example.js').toString(),
   // Secrets can be accessed within the source code with `secrets.varName` (ie: secrets.apiKey). The secrets object can only contain string values.
-  //secrets: { apiKey: process.env.COINMARKETCAP_API_KEY ?? "" },
   // Per-node secrets objects assigned to each DON member. When using per-node secrets, nodes can only use secrets which they have been assigned.
   perNodeSecrets: [],
   // ETH wallet key used to sign secrets so they cannot be accessed by a 3rd party
   walletPrivateKey: process.env["PRIVATE_KEY"],
-  secrets: { accessToken: process.env.ACCESS_TOKEN ?? "" },
-  // Args (string only array) can be accessed within the source code with `args[index]` (ie: args[0]).
-  // args: ["1", "bitcoin", "btc-bitcoin", "btc", "1000000", "450"],
+  secrets: { accessToken: process.env.ACCESS_TOKEN ?? ""},
   
   // 1337 - 42
-  // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x12b1CF04990cf30233D42f21bD5EeDe3d9899D3A'", "SE_PLAYGROUND.DNFT_0"],
+  args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x12b1CF04990cf30233D42f21bD5EeDe3d9899D3A'", "SE_PLAYGROUND.DNFT_0"],
   // Noob  - 3
-  args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0xeC50231aED126eBAe28c17b25bfe4AF0Bad1463F'", "SE_PLAYGROUND.DNFT_0"],
+  // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0xeC50231aED126eBAe28c17b25bfe4AF0Bad1463F'", "SE_PLAYGROUND.DNFT_0"],
   // Warrior - 16
   // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x2A98F5f920668405a158bE44E495101dd676E95E'", "SE_PLAYGROUND.DNFT_0"],
   // VIP - 29
   // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x6A78521af18456C31C4597877F0C8D9BEbFd0F2C'", "SE_PLAYGROUND.DNFT_0"],
-
 
   // Expected type of the returned value
   expectedReturnType: ReturnType.uint256,

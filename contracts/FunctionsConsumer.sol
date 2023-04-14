@@ -37,7 +37,7 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
   // https://github.com/protofire/solhint/issues/242
   // solhint-disable-next-line no-empty-blocks
   // constructor(address oracle) FunctionsClient(oracle) ConfirmedOwner(msg.sender) {}
-  constructor(address oracle) FunctionsClient(oracle) ConfirmedOwner(msg.sender) ERC721("SxT DNFT", "SXTDNFT") {
+  constructor(address oracle) FunctionsClient(oracle) ConfirmedOwner(msg.sender) ERC721("Space & Time dNFT", "SXT-DNFT") {
     _safeMint(msg.sender, 0);
   }
 
@@ -88,11 +88,11 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
     if (_score >= 30) {
         SxTName = '1337';
       } else if (_score >= 20 && _score < 30) {
-        SxTName = 'VIP';
+        SxTName = 'ASTRONAUT';
       } else if (_score >= 10 && _score < 20) {
-        SxTName = 'Warrior';
+        SxTName = 'VIP';
       } else if (_score <= 10){
-        SxTName = 'Noob';
+        SxTName = 'NOOB';
     }
   
     emit SxTNFT(SxTName, _score);
@@ -114,8 +114,8 @@ function tokenURI(uint256) public view override(ERC721URIStorage) returns (strin
             '{"name": "SxT ',
             SxTName,
             '",',
-            '"description": "An SxT Functions Monster", '
-            '"image": "https://raw.githubusercontent.com/nopslip/SxT-dNFT/main/img/',
+            '"description": "An Space & Time Functions Monster", '
+            '"image": "https://raw.githubusercontent.com/nopslip/SxT-dNFT-IMG/main/',
             string(Strings.toString(SxTId)),
             '.png"',
             "}"
