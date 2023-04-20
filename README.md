@@ -1,3 +1,13 @@
+---
+title: (DRAFT) Creating a Dynamic NFT with Space and Time and ChainLink Functions
+excerpt: This is the excerpt! 
+hidden: True
+slug: create-dynamic-nfts-with-space-and-time
+category: 63728702ff90e40042fb01c2
+parentDoc: 63728711a5b1f10029c22f54
+---
+
+
 
 1) install packages 
 `npm install`
