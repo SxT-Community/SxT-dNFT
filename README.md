@@ -1,3 +1,4 @@
+
 ---
 title: (DRAFT) Creating a Dynamic NFT with Space and Time and ChainLink Functions
 excerpt: This is the excerpt! 
