@@ -1,4 +1,3 @@
-
 ---
 title: (DRAFT) Creating a Dynamic NFT with Space and Time and ChainLink Functions
 excerpt: This is the excerpt! 
@@ -9,13 +8,12 @@ parentDoc: 63728711a5b1f10029c22f54
 ---
 
 
-
 1) install packages 
 `npm install`
 
 2) Set Envars 
 
-`npx env-env
+`npx env-enc`
 
 3) Test/Simulate 
 
