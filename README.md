@@ -169,9 +169,9 @@ The first thing we're going to do is simulate the full interaction. This is help
 
 `npx hardhat functions-deploy-client --network mumbai --verify true`
 
-3) Get the contract address from the previous step and set envar: 
+3) Get the contract address from the previous step and set temporary envar: 
 
-   `npx env-enc set` for `CONTRACT_ADDRESS`
+   `export CONTRACT_ADDRESS=<your_contract_address>`
 
    Now is a good time to pull up your dNFT contract on OpenSea! Just place your contract address in here: https://testnets.opensea.io/assets/mumbai/<contract_address>/0
 
