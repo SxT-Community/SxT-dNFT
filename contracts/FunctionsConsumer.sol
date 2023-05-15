@@ -22,8 +22,6 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
   bytes32 public latestRequestId;
   bytes public latestResponse;
   bytes public latestError;
-
-  string public SxTName;
   uint256 public SxTId;
 
   event OCRResponse(bytes32 indexed requestId, bytes result, bytes err);
@@ -82,20 +80,7 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
     latestResponse = response;
     latestError = err;
     emit OCRResponse(requestId, response, err);
-    uint256 _score = abi.decode(response, (uint256));
-    SxTId = _score;
-    // Set player level based on score 
-    if (_score >= 30) {
-        SxTName = '1337';
-      } else if (_score >= 20 && _score < 30) {
-        SxTName = 'ASTRONAUT';
-      } else if (_score >= 10 && _score < 20) {
-        SxTName = 'VIP';
-      } else if (_score <= 10){
-        SxTName = 'NOOB';
-    }
-  
-    emit SxTNFT(SxTName, _score);
+    SxTId = abi.decode(response, (uint256));
     emit BatchMetadataUpdate(0, type(uint256).max);
   }
   
@@ -106,25 +91,9 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
   }
 
 // HERE WE ARE  
-function tokenURI(uint256) public view override(ERC721URIStorage) returns (string memory) {
-    string memory json = Base64.encode(
-      bytes(
-        string(
-          abi.encodePacked(
-            '{"name": "SxT ',
-            SxTName,
-            '",',
-            '"description": "An Space & Time Functions Monster", '
-            '"image": "https://raw.githubusercontent.com/nopslip/SxT-dNFT-IMG/main/',
-            string(Strings.toString(SxTId)),
-            '.png"',
-            "}"
-          )
-        )
-      )
-    );
-    string memory finalTokenURI = string(abi.encodePacked("data:application/json;base64,", json));
-    return finalTokenURI;
+  function tokenURI(uint256) public view override(ERC721URIStorage) returns (string memory) {
+    string memory baseURL = "https://cloudflare-ipfs.com/ipfs/QmYxCeAjwBiAHUztrFGt3e4ZZEV8txJdYSzVdk6YTWn84j/";
+    return  string(abi.encodePacked(baseURL, string(Strings.toString(SxTId))));
   }
 
 

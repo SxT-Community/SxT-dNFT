@@ -40,15 +40,14 @@ const requestConfig = {
   secrets: { accessToken: process.env.ACCESS_TOKEN ?? ""},
   
   // 1337 - 42
-  args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x12b1CF04990cf30233D42f21bD5EeDe3d9899D3A'", "SE_PLAYGROUND.DNFT_0"],
-  // Noob  - 3
-  // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0xeC50231aED126eBAe28c17b25bfe4AF0Bad1463F'", "SE_PLAYGROUND.DNFT_0"],
-  // Warrior - 16
-  // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x2A98F5f920668405a158bE44E495101dd676E95E'", "SE_PLAYGROUND.DNFT_0"],
-  // VIP - 29
-  // args: ["SELECT player_score FROM SE_PLAYGROUND.DNFT_0 WHERE player_address = '0x6A78521af18456C31C4597877F0C8D9BEbFd0F2C'", "SE_PLAYGROUND.DNFT_0"],
+  args: [
+  "SELECT \n"+
+  "CASE WHEN SUM(Points) BETWEEN 100 AND 150 THEN 1 \n" +
+  "WHEN SUM(POINTS) BETWEEN 151 AND 300 THEN 2\n" +
+  "WHEN SUM(POINTS) > 300 THEN 3 ELSE 1 END AS SWORD  \n" +
+  "FROM TEST.GAME_TELEMETRY_ARTHUR \n" +
+  "GROUP BY ItemId", "TEST.GAME_TELEMETRY_ARTHUR"],
 
-  // Expected type of the returned value
   expectedReturnType: ReturnType.uint256,
   // Redundant URLs which point to encrypted off-chain secrets
   secretsURLs: [],
