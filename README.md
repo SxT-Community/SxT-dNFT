@@ -221,6 +221,8 @@ GROUP BY ItemId;
 
 If the request fails, Double check your ACCESS_TOKEN. You need to refresh your ACCESS_TOKEN every 30 min
 
+> ! Be sure to hit Open Sea and checkout your new sword: https://testnets.opensea.io/assets/mumbai/<contract_address>/0
+
 ### Add More Game Telemetry to SxT (sword 3)
 
 ```SQL
@@ -257,5 +259,7 @@ GROUP BY ItemId;
 2) Run the request:
 
 `npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
+
+> ! Be sure to hit Open Sea and checkout your new level three sword: https://testnets.opensea.io/assets/mumbai/<contract_address>/0
 
 
