@@ -33,11 +33,10 @@ For the guide we will go through the following high-level steps:
    - Connect to SxT
    - Create Table
    - Insert Data
-3) Deploy NFT contract to Mumbai 
-4) Connect SxT to our NFT using Chainlink Functions 
-5) Level up our SwordNFT
+3) Connect SxT to Mumbai via Chainlink Functions
+4) Level up our SwordNFT
 
-## Base Setup & Config 
+## 1. Base Setup & Config 
 
 > ❗ 
 > Space and Time and Chainlink Functions are both in beta. It probable that updates will be made one or both that change how steps in this guide work. You can find us on [Discord](https://discord.gg/spaceandtimeDB) with questions. 
@@ -54,15 +53,15 @@ For the guide we will go through the following high-level steps:
 - `npx env-enc set-pw` - to set your root password
 - Now, we'll use `env-enc set` to set some envars:
 
-   `MUMBAI_RPC_URL` = <RPC_URL for mumbai network Infura or Alchemy>
+   `MUMBAI_RPC_URL` - RPC_URL for Mumbai network (Infura or Alchemy)
 
-   `PRIVATE_KEY` = <PK_THAT_HAS_ACCESS_TO_FUNCTIONS_BETA>
+   `PRIVATE_KEY` - Private key for the account/address you used to sign up for Chainlink Functions
 
-   `ACCESS_TOKEN` = <SxT ACCESS TOKEN>
+   `ACCESS_TOKEN` - Space and Time Access Token (only valid for 30 minutes)
 
-   `POLYGONSCAN_API_KEY` = <go to polygon scan and generate an api key for free. Used to verify contracts.>
+   `POLYGONSCAN_API_KEY` - Used to verify contracts 
 
-   `GITHUB_API_TOKEN` = <Aquire a Github personal access token which allows reading and writing Gists. Chainlink Functions writes a temporary secret Gist. 
+   `GITHUB_API_TOKEN` - Personal access token, used by Chainlink Functions 
 
 * Visit https://github.com/settings/tokens?type=beta and 
    - click "Generate new token"
@@ -72,11 +71,16 @@ For the guide we will go through the following high-level steps:
 
 ___
 
-## Space & Time Setup
-First, let us take a look at what the gaming telemetry tables will look like in SxT: 
+## 2. Space & Time Setup
 
+### Setup Data in Space and Time
 
-Table: **game_telemetry**
+> 📘 
+> You can access SxT VIA the [API](https://docs.spaceandtime.io/reference/about-rest-apis) or [JDBC Driver](https://docs.spaceandtime.io/docs/jdbc-driver) 
+
+Here's a look at the gaming telemetry table SxT we're going to create: 
+
+Table: **GAME_TELEMETRY_ARTHUR**
 
 | ID | GamerId | ActionType | AchievementId | collectableId | Level | ItemId | points |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -88,43 +92,6 @@ Table: **game_telemetry**
 | 6 | 1 | Collect |  | PotionA | 2 | SwordNFt | 100 |
 | 7 | 1 | Collect |  | PotionB | 2 | SwordNFt | 150 |
 | 8 | 1 | Attack |  |  | 3 | SwordNFt | 9 |
-
-Table: **sword**
-
-| SwordId | StrengthStartRange | StrengthEndRange | Type |
-| --- | --- | --- | --- |
-| 1 | 0 | 150 | BasicSword |
-| 2 | 151 | 300 | Katana |
-| 3 | 300 | 500 | Excalibur |
-
-Table: **game_characters**
-
-| gameCharactersId | Achievement |
-| --- | --- |
-| King | 100 |
-| Queen | 50 |
-| Knight | 10 |
-| Wizard | 200 |
-
-Table: **collectable_items**
-
-| PotionA | 100 |
-| --- | --- |
-| PotionB | 50 |
-| PotionC | 10 |
-| PotionD | 200 |
-
-
-------------------------------------------------
-### Setup Data in Space and Time
-
-> 📘 
-You can access SxT VIA the API or JDBC Driver 
-
-* For JDBC Connection 
-https://docs.spaceandtime.io/docs/jdbc-driver
-* For REST API 
-https://docs.spaceandtime.io/reference/about-rest-apis
 
 -------------------------
 
@@ -141,14 +108,14 @@ CREATE TABLE TEST.GAME_TELEMETRY_ARTHUR (
     ItemId VARCHAR,
     Points INTEGER,
     PRIMARY KEY (ID)
-) WITH "public_key=1F61FA7EE091537D0E822703432DDB0A78768C513942A422B2F459ABE46DDB8A,
+) WITH "public_key=<your_biscuit_public_key>,
        access_type=public_write, 
        template=PARTITIONED, 
        atomicity=transactional"
 ```
 
-* Please note, you will need to replace the `public_key` with your Biscuit public key. 
-
+> 📘 
+> Please note, you will want to replace `your_biscuit_public_key` with public key used to generate the biscuit token you're sending along with this request.  
 
 2) Load Table
 
@@ -162,7 +129,7 @@ VALUES
     (5, 1, 'Attack', '', '', 1, 'SwordNFt', 3);
 ```
 
-3) Check Data that is loaded:
+3) Check data that is loaded:
 
 ```SQL 
 SELECT * from TEST.GAME_TELEMETRY_ARTHUR
@@ -182,10 +149,15 @@ FROM TEST.GAME_TELEMETRY_ARTHUR
 GROUP BY ItemId;
 ```
 
+Should return:
 
-## SET UP YOUR PROJECT
+```
+ITEMID  |SUM(POINTS)|SWORD|
+--------+-----------+-----+
+SwordNFt|111        |1    |
+```
 
-
+## 3. Connect SxT to Mumbai via Chainlink Functions 
 
 6) Test/Simulate
 `npx hardhat functions-simulate --gaslimit 300000`
@@ -274,3 +246,30 @@ Come back to this project:
 
 If request fails, Double check your ACCESS_TOKEN. You need to refresh your ACCESS_TOKEN every 30 min
 
+___
+Other stuff for reference:
+
+Table: **sword**
+
+| SwordId | StrengthStartRange | StrengthEndRange | Type |
+| --- | --- | --- | --- |
+| 1 | 0 | 150 | BasicSword |
+| 2 | 151 | 300 | Katana |
+| 3 | 300 | 500 | Excalibur |
+
+Table: **game_characters**
+
+| gameCharactersId | Achievement |
+| --- | --- |
+| King | 100 |
+| Queen | 50 |
+| Knight | 10 |
+| Wizard | 200 |
+
+Table: **collectable_items**
+
+| PotionA | 100 |
+| --- | --- |
+| PotionB | 50 |
+| PotionC | 10 |
+| PotionD | 200 |
