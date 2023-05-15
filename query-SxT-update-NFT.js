@@ -3,7 +3,7 @@ const sqlText = args[0]
 const resourceId = args[1]
 
 const response = await Functions.makeHttpRequest({
-  url: "https://hackathon.spaceandtime.dev/v1/sql/dql",
+  url: "https://<SxT-API-URL>/v1/sql/dql",
   method: "POST",
   timeout: 9000,
   headers: {
