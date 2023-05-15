@@ -1,13 +1,43 @@
 ---
 title: (DRAFT) Creating a Dynamic NFT with Space and Time and ChainLink Functions
-excerpt: This is the excerpt! 
+excerpt: This guide will walk you through making dynamic NFT with Space and Time and Chainlink Functions 
 hidden: True
 slug: create-dynamic-nfts-with-space-and-time
 category: 63728702ff90e40042fb01c2
 parentDoc: 63728711a5b1f10029c22f54
 ---
 
-------------------------------------------------
+## Introduction 
+In this guide, we will walk you through the process of creating a dynamic NFT using Space and Time and Chainlink Functions. We will create a SwordNFT that's rating changes based on how the sword is being used in-game. More specifically, gaming telemetry in Space and Time is updated, and fed to the NFT contract using Chainlink Functions. 
+
+Before we get started, we should answer a couple of important question:
+
+**What is a dynamic NFT (dNFT)?**
+
+From a simple view, according to ERC721 (and ERC1155) non-fungible tokens should have a `tokenURI` function that stores a URL which will return a JSON blob of metadata for a given NFT. That blob usually contains things like a pointer to an image file, NFT name, description, etc. **A dNFT is simply an NFT where the metadata for the NFT is designed to change.** 
+
+**But I thought NFTs weren't supposed to change!?**
+
+There is nothing in ERC721/ERC1155 that says an NFTs metadata cannot change. The idea that an NFTs metadata shouldn't change likely comes from one specific use case involving permanent digital collectibles. While a full discussion on the topic is beyond the scope of this guide, it's important to understand that NFTs can take on many forms, and there is an increasing demand for NFTs that can evolve and/or be leveled up. Also, keep in mind that it's important to think about who (or what) can make changes to an NFT, how those changes can be made, and how long it's possible to make changes. 
+
+## Overview  
+For the guide we will go through the following high level steps:
+
+1) Base Setup & Config
+   - download & install repo
+   - setup envars
+2) Setup our game telemetry table in Space and Time
+   - Connect to SxT
+   - Create Table
+   - Insert Data
+3) Deploy NFT contract to Mumbai 
+4) Connect SxT to our NFT using Chainlink Functions 
+5) Level up our SwordNFT
+
+
+## Base Setup & Config 
+
+`git clone https://github.com/SxT-Community/SxT-dNFT.git` 
 
 ## DATA THAT IS LOADED INTO SPACE AND TIME TO WORK ON THE DYNAMIC NFTS
 
