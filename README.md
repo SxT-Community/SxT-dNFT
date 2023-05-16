@@ -1,6 +1,6 @@
 ---
-title: (DRAFT) Creating a Dynamic NFT with Space and Time and ChainLink Functions
-excerpt: This guide will walk you through making dynamic NFT with Space and Time and Chainlink Functions 
+title: Create Dynamic NFTs with Space & Time
+excerpt: This guide will walk you through creating a dynamic NFT with Space and Time and Chainlink Functions 
 hidden: True
 slug: create-dynamic-nfts-with-space-and-time
 category: 6424539b11d4d600114c1b48
@@ -27,9 +27,8 @@ For the guide we will go through the following high-level steps:
 1) Base Setup & Config
    - Prerequisites
    - Download & install repo
-   - Setup env-env
+   - Setup `env-enc`
 2) Space & Time Setup 
-   - Connect to SxT
    - Create Table
    - Insert Data
 3) Connect SxT to Mumbai via Chainlink Functions
@@ -43,16 +42,16 @@ For the guide we will go through the following high-level steps:
 ### Prerequisites
 1) You will need beta access to Space and Time and Chainlink Functions. You can request access to [SxT beta here](https://www.spaceandtime.io/access-beta) and [Chainlink functions beta here](https://chainlinkcommunity.typeform.com/requestaccess?typeform-source=docs.chain.link).  
 
-2) If you're new to SxT it's recommended that you start first with our [SxT Getting Started Guide](https://docs.spaceandtime.io/docs/getting-started). If you're new to Chainlink Functions, they recommend you start with their [Getting Started](https://docs.chain.link/chainlink-functions/getting-started/). Having a basic understanding of how to connect to SxT and how Chainlink Functions work will set you up for success with this guide.   
+2) If you're new to SxT it's recommended that you start first with our [SxT Getting Started Guide](https://docs.spaceandtime.io/docs/getting-started). If you're new to Chainlink Functions, we recommend you start with their [Getting Started Guide](https://docs.chain.link/chainlink-functions/getting-started/). Having a basic understanding of how to connect to SxT and how Chainlink Functions work will set you up for success with this guide 💪 
 
 ### Setup 
 1) `git clone https://github.com/SxT-Community/SxT-dNFT.git && cd SxT-DNFT` 
 2) `npm install`
-3) One of the packages you just install is a handy tool created by Chainlink Labs for encrypting your local environment variables. Please have a look at `npx env-enc help` to see all available commands and then:
+3) One of the packages you just install is a handy tool created by Chainlink Labs for encrypting your local environment variables. Please have a look at `npx env-enc help` to see all available commands. 
 - `npx env-enc set-pw` - to set your root password
-- Now, we'll use `env-enc set` to set some envars:
+- Next, we'll use `env-enc set` to set some envars:
 
-   `MUMBAI_RPC_URL` - RPC_URL for Mumbai network (Infura or Alchemy)
+   `MUMBAI_RPC_URL` - RPC_URL for Mumbai network (Infura, Alchemy, etc)
 
    `PRIVATE_KEY` - Private key for the account/address you used to sign up for Chainlink Functions
 
@@ -94,7 +93,7 @@ Table: **GAME_TELEMETRY_ARTHUR**
 
 -------------------------
 
-1) Create table
+1) First, CREATE your table: 
 
 ```SQL
 CREATE TABLE TEST.GAME_TELEMETRY_ARTHUR (
@@ -114,9 +113,9 @@ CREATE TABLE TEST.GAME_TELEMETRY_ARTHUR (
 ```
 
 > 📘 
-> Please note, you will want to replace `your_biscuit_public_key` with public key used to generate the biscuit token you're sending along with this request.  
+> Please note, you will want to replace `your_biscuit_public_key` with public key used to generate the biscuit token you're sending along with this request. You'll also want to replace `TEST` with your schema name.  
 
-2) Load Table
+2) Load Table - This is where a game would be inserting it's telemetry into SxT: 
 
 ```SQL
 INSERT INTO TEST.GAME_TELEMETRY_ARTHUR (ID, GamerId, ActionType, AchievementId, collectableId, Level_, ItemId, Points)
@@ -128,7 +127,7 @@ VALUES
     (5, 1, 'Attack', '', '', 1, 'SwordNFt', 3);
 ```
 
-3) Check data that is loaded:
+3) View data that is loaded:
 
 ```SQL 
 SELECT * from TEST.GAME_TELEMETRY_ARTHUR
@@ -159,15 +158,18 @@ SwordNFt|111        |1    |
 
 ## 3. Connect SxT to Mumbai via Chainlink Functions 
 
-Now that we have our gaming telemetry table in SxT, we're going to connect everything up. The following steps were adapted from the [Chainlink Functions repo here](https://github.com/smartcontractkit/functions-hardhat-starter-kit) and might be useful as a resource if you run into any issues getting Chainlink Functions setup. 
+Now that we have our gaming telemetry table in SxT, we're going to connect everything up. The following steps were adapted from the [Chainlink Functions repo](https://github.com/smartcontractkit/functions-hardhat-starter-kit) and might be useful as a resource if you run into any issues getting Chainlink Functions setup. 
 
-The first thing we're going to do is simulate the full interaction. This is helpful because it allows us to identify a lot of potential issues before we deploy our dNFT contract. 
+The first thing we're going to do is simulate the full interaction. This is helpful because it allows us to identify potential issues before we deploy our dNFT contract. 
 
 1) Test/Simulate
 
    `npx hardhat functions-simulate --gaslimit 300000`
+   
+   > ❗ 
+   > If the test fails, be sure your `ACCESS_TOKEN` is valid (not older than 30 minutes) in your encrypted envar file. 
 
-2) Then we can deploy our contract to mumbai
+2) Deploy our contract to mumbai:
 
    `npx hardhat functions-deploy-client --network mumbai --verify true`
 
@@ -181,16 +183,16 @@ The first thing we're going to do is simulate the full interaction. This is help
 
    `npx hardhat functions-sub-create --network mumbai --amount 2 --contract $CONTRACT_ADDRESS`
 
-Get the subscription id and set an envar SUB_ID
+   Get the subscription id and set a shell envar for: 
+   `export SUB_ID=<CL_FUNCTIONS_SUB_ID>`
 
 5) Run request:
 
    `npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
 
-> 📘  
-> If the request fails, Double check your ACCESS_TOKEN. You need to refresh or generate a new ACCESS_TOKEN every 30 min. 
-
 ## 4. Level Up Your dNFT Sword 
+
+Now it's time to level up your swordNFT based on a gaming telemetry update to the data in SxT. 
 
 ### Add more game telemetry to SxT (sword 2)
 
@@ -220,13 +222,15 @@ GROUP BY ItemId;
 
 2) Run request:
 
-`npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
+   `npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
 
-If the request fails, Double check your ACCESS_TOKEN. You need to refresh your ACCESS_TOKEN every 30 min
+   If the request fails, Double check your ACCESS_TOKEN. You need to refresh your ACCESS_TOKEN every 30 min. 
 
-> ! Be sure to hit Open Sea and checkout your new sword: https://testnets.opensea.io/assets/mumbai/<contract_address>/0
+   > 🚀 Hit Open Sea and refresh the page to see your swordNFT change - https://testnets.opensea.io/assets/mumbai/<contract_address>/0
 
 ### Add More Game Telemetry to SxT (sword 3)
+
+As the game is played, more telemetry is loaded into Space and Time! 
 
 ```SQL
 INSERT INTO TEST.GAME_TELEMETRY_ARTHUR(ID, GamerId, ActionType, AchievementId, collectableId, Level_, ItemId, Points)
@@ -235,7 +239,7 @@ VALUES
     (8, 1, 'Attack', '', '', 3, 'SwordNFt', 9);
 ```
 
-Confirm the insert with:
+View the insert with:
 
 `SELECT * from TEST.GAME_TELEMETRY_ARTHUR`
 
@@ -261,8 +265,9 @@ GROUP BY ItemId;
 
 2) Run the request:
 
-`npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
+   `npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
 
-> ! Be sure to hit Open Sea and checkout your new level three sword: https://testnets.opensea.io/assets/mumbai/<contract_address>/0
+### Head back to Open Sea your level three swordNFT!
+___ 
 
 
