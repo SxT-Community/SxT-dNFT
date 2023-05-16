@@ -33,7 +33,7 @@ For the guide we will go through the following high-level steps:
    - Create Table
    - Insert Data
 3) Connect SxT to Mumbai via Chainlink Functions
-4) Level up our SwordNFT
+4) Level Up Your SwordNFT
 
 ## 1. Base Setup & Config 
 
@@ -155,6 +155,7 @@ ITEMID  |SUM(POINTS)|SWORD|
 --------+-----------+-----+
 SwordNFt|111        |1    |
 ```
+---
 
 ## 3. Connect SxT to Mumbai via Chainlink Functions 
 
@@ -163,11 +164,12 @@ Now that we have our gaming telemetry table in SxT, we're going to connect every
 The first thing we're going to do is simulate the full interaction. This is helpful because it allows us to identify a lot of potential issues before we deploy our dNFT contract. 
 
 1) Test/Simulate
-`npx hardhat functions-simulate --gaslimit 300000`
+
+   `npx hardhat functions-simulate --gaslimit 300000`
 
 2) Then we can deploy our contract to mumbai
 
-`npx hardhat functions-deploy-client --network mumbai --verify true`
+   `npx hardhat functions-deploy-client --network mumbai --verify true`
 
 3) Get the contract address from the previous step and set temporary envar: 
 
@@ -177,17 +179,18 @@ The first thing we're going to do is simulate the full interaction. This is help
 
 4) Create CL Functions Subscription and fund with link tokens
 
-`npx hardhat functions-sub-create --network mumbai --amount 2 --contract $CONTRACT_ADDRESS`
+   `npx hardhat functions-sub-create --network mumbai --amount 2 --contract $CONTRACT_ADDRESS`
 
 Get the subscription id and set an envar SUB_ID
 
 5) Run request:
 
-`npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
+   `npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
 
-If the request fails, Double check your ACCESS_TOKEN. You need to refresh or generate a new ACCESS_TOKEN every 30 min. 
+> 📘  
+> If the request fails, Double check your ACCESS_TOKEN. You need to refresh or generate a new ACCESS_TOKEN every 30 min. 
 
-## Level up our dNFT Sword 
+## 4. Level Up Your dNFT Sword 
 
 ### Add more game telemetry to SxT (sword 2)
 
