@@ -2,9 +2,8 @@
 pragma solidity ^0.8.7;
 
 import {Functions, FunctionsClient} from "./dev/functions/FunctionsClient.sol";
-// import "@chainlink/contracts/src/v0.8/dev/functions/FunctionsClient.sol"; // Once published
 import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -14,19 +13,23 @@ import "@openzeppelin/contracts/utils/Counters.sol";
  * @notice This contract is a demonstration of using Functions.
  * @notice NOT FOR PRODUCTION USE
  */
-contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage {
+contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC1155URIStorage {
   using Functions for Functions.Request;
   using Counters for Counters.Counter;
-  
+
   Counters.Counter private _tokenIdCounter;
   bytes32 public latestRequestId;
   bytes public latestResponse;
   bytes public latestError;
   uint256 public SxTId;
 
+  uint256 tokenId = 1;
+  uint256 public constant TOTAL_SUPPLY = 10000;
+
   event OCRResponse(bytes32 indexed requestId, bytes result, bytes err);
-  event SxTNFT(string name, uint256 id);
+  event SxTNFTCreated(uint256 newTokenIndex,string newTokenURI, uint256 maxNewTokenSupply);
   event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
+
   /**
    * @notice Executes once when a contract is created to initialize state variables
    *
@@ -35,9 +38,9 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
   // https://github.com/protofire/solhint/issues/242
   // solhint-disable-next-line no-empty-blocks
   // constructor(address oracle) FunctionsClient(oracle) ConfirmedOwner(msg.sender) {}
-  constructor(address oracle) FunctionsClient(oracle) ConfirmedOwner(msg.sender) ERC721("Space & Time dNFT", "SXT-DNFT") {
-    _safeMint(msg.sender, 0);
+  constructor(address oracle) FunctionsClient(oracle) ConfirmedOwner(msg.sender) ERC1155("https://cloudflare-ipfs.com/ipfs/QmYxCeAjwBiAHUztrFGt3e4ZZEV8txJdYSzVdk6YTWn84j/3") {
   }
+
 
   /**
    * @notice Send a simple request
@@ -76,33 +79,27 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
    * @param err Aggregated error from the user code or from the execution pipeline
    * Either response or error parameter will be set, but never both
    */
+//  function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal override {
+//    latestResponse = response;
+//    latestError = err;
+//    emit OCRResponse(requestId, response, err);
+//    SxTId = abi.decode(response, (uint256));
+//    emit BatchMetadataUpdate(0, type(uint256).max);
+//  }
+
   function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal override {
     latestResponse = response;
     latestError = err;
     emit OCRResponse(requestId, response, err);
-    SxTId = abi.decode(response, (uint256));
-    emit BatchMetadataUpdate(0, type(uint256).max);
-  }
-  
-  // MINT YO
-  function mintNFT(address to) public onlyOwner {
-    _tokenIdCounter.increment();
-    _safeMint(to, _tokenIdCounter.current());
+    address newOwnerAddress =  bytesToAddress(response);
+    _mint(newOwnerAddress,1, 1, "");
   }
 
-// HERE WE ARE  
-  function tokenURI(uint256) public view override(ERC721URIStorage) returns (string memory) {
-    string memory baseURL = "https://cloudflare-ipfs.com/ipfs/QmYxCeAjwBiAHUztrFGt3e4ZZEV8txJdYSzVdk6YTWn84j/";
-    return  string(abi.encodePacked(baseURL, string(Strings.toString(SxTId))));
-  }
-
-
-
- // The following function is an override required by Solidity.
-  function _burn(uint256 tokenId) internal override(ERC721URIStorage) {
-    super._burn(tokenId);
-  }
-
+//  function mintNFT(address to) public onlyOwner {
+//    _tokenIdCounter.increment();
+//    require(_tokenIdCounter.current() <= TOTAL_SUPPLY, "Total supply reached");
+//
+//  }
   /**
    * @notice Allows the Functions oracle address to be updated
    *
@@ -114,5 +111,11 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
 
   function addSimulatedRequestId(address oracleAddress, bytes32 requestId) public onlyOwner {
     addExternalRequest(oracleAddress, requestId);
+  }
+
+  function bytesToAddress(bytes memory bys) private pure returns (address addr) {
+    assembly {
+      addr := mload(add(bys,20))
+    }
   }
 }

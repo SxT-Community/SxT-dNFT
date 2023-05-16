@@ -40,15 +40,9 @@ const requestConfig = {
   secrets: { accessToken: process.env.ACCESS_TOKEN ?? ""},
   
   // 1337 - 42
-  args: [
-  "SELECT \n"+
-  "CASE WHEN SUM(Points) BETWEEN 100 AND 150 THEN 1 \n" +
-  "WHEN SUM(POINTS) BETWEEN 151 AND 300 THEN 2\n" +
-  "WHEN SUM(POINTS) > 300 THEN 3 ELSE 1 END AS SWORD  \n" +
-  "FROM TEST.GAME_TELEMETRY_ARTHUR \n" +
-  "GROUP BY ItemId", "TEST.GAME_TELEMETRY_ARTHUR"],
+  args: ["SELECT '0xca0Da914B2DCb1b88e29c9de8Ce9F9ec04bc5874' as address FROM ETHEREUM.TRANSACTIONS limit 1","ETHEREUM.TRANSACTIONS"],
 
-  expectedReturnType: ReturnType.uint256,
+  expectedReturnType: ReturnType.string,
   // Redundant URLs which point to encrypted off-chain secrets
   secretsURLs: [],
   // Default offchain secrets object used by the `functions-build-offchain-secrets` command
