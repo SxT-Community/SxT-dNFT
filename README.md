@@ -38,7 +38,7 @@ For the guide we will go through the following high-level steps:
 ## 1. Base Setup & Config 
 
 > ❗ 
-> Space and Time and Chainlink Functions are both in beta. It probable that updates will be made one or both that change how steps in this guide work. You can find us on [Discord](https://discord.gg/spaceandtimeDB) with questions. 
+> Space and Time and Chainlink Functions are both in beta. It's probable that updates will be made to one or both that change how steps in this guide work. You can find us on [Discord](https://discord.gg/spaceandtimeDB) with questions. 
 
 ### Prerequisites
 1) You will need beta access to Space and Time and Chainlink Functions. You can request access to [SxT beta here](https://www.spaceandtime.io/access-beta) and [Chainlink functions beta here](https://chainlinkcommunity.typeform.com/requestaccess?typeform-source=docs.chain.link).  
