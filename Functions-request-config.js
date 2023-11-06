@@ -31,22 +31,19 @@ const requestConfig = {
   // String containing the source code to be executed
   // location of secrets (Inline or Remote)
   secretsLocation: Location.Inline,
-  source: fs.readFileSync("./query-SxT-update-NFT.js").toString(),
-  // Secrets can be accessed within the source code with `secrets.varName` (ie: secrets.apiKey). The secrets object can only contain string values.
-  // Per-node secrets objects assigned to each DON member. When using per-node secrets, nodes can only use secrets which they have been assigned.
+  source: fs.readFileSync("./query-SxT-webassembly.js").toString(),
   perNodeSecrets: [],
-  // ETH wallet key used to sign secrets so they cannot be accessed by a 3rd party
+
   walletPrivateKey: process.env["PRIVATE_KEY"],
-  secrets: { accessToken: process.env.ACCESS_TOKEN ?? ""},
-  
-  // 1337 - 42
+  secrets: { apiKey: process.env.API_KEY ?? ""},
+
   args: [
-  "SELECT \n"+
+  "SELECT /*! USE ROWS */\n"+
   "CASE WHEN SUM(Points) BETWEEN 100 AND 150 THEN 1 \n" +
   "WHEN SUM(POINTS) BETWEEN 151 AND 300 THEN 2\n" +
   "WHEN SUM(POINTS) > 300 THEN 3 ELSE 1 END AS SWORD  \n" +
-  "FROM TEST.GAME_TELEMETRY_ARTHUR \n" +
-  "GROUP BY ItemId", "TEST.GAME_TELEMETRY_ARTHUR"],
+  "FROM SXTNFT.GAME_TELEMETRY_ARTHUR \n" +
+  "GROUP BY ItemId", "SXTNFT.GAME_TELEMETRY_ARTHUR",process.env.API_URL],
 
   expectedReturnType: ReturnType.uint256,
   // Redundant URLs which point to encrypted off-chain secrets

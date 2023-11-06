@@ -92,7 +92,7 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
 
 // HERE WE ARE  
   function tokenURI(uint256) public view override(ERC721URIStorage) returns (string memory) {
-    string memory baseURL = "https://cloudflare-ipfs.com/ipfs/QmYxCeAjwBiAHUztrFGt3e4ZZEV8txJdYSzVdk6YTWn84j/";
+    string memory baseURL = "https://gateway.pinata.cloud/ipfs/QmYxCeAjwBiAHUztrFGt3e4ZZEV8txJdYSzVdk6YTWn84j/";
     return  string(abi.encodePacked(baseURL, string(Strings.toString(SxTId))));
   }
 
