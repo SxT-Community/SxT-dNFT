@@ -2,25 +2,7 @@ const fs = require("fs")
 
 // Loads environment variables from .env file (if it exists)
 require("dotenv").config()
-
-const Location = {
-  Inline: 0,
-  Remote: 1,
-}
-
-const CodeLanguage = {
-  JavaScript: 0,
-}
-
-const ReturnType = {
-  uint: "uint256",
-  uint256: "uint256",
-  int: "int256",
-  int256: "int256",
-  string: "string",
-  bytes: "Buffer",
-  Buffer: "Buffer",
-}
+const { Location, ReturnType, CodeLanguage } = require("@chainlink/functions-toolkit")
 
 // Configure the request by setting the fields below
 const requestConfig = {
@@ -30,7 +12,7 @@ const requestConfig = {
   codeLanguage: CodeLanguage.JavaScript,
   // String containing the source code to be executed
   // location of secrets (Inline or Remote)
-  secretsLocation: Location.Inline,
+  secretsLocation: Location.DONHosted,
   source: fs.readFileSync("./query-SxT-update-NFT.js").toString(),
   perNodeSecrets: [],
 

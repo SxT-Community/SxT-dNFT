@@ -1,9 +1,6 @@
 
 const sqlText = args[0]
 const API = args[1]
-console.log(API)
-console.log(secrets.apiKey)
-console.log(sqlText)
 
 const response = await Functions.makeHttpRequest({
   url: API,
