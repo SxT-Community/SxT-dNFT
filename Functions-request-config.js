@@ -31,7 +31,7 @@ const requestConfig = {
   // String containing the source code to be executed
   // location of secrets (Inline or Remote)
   secretsLocation: Location.Inline,
-  source: fs.readFileSync("./query-SxT-webassembly.js").toString(),
+  source: fs.readFileSync("./query-SxT-update-NFT.js").toString(),
   perNodeSecrets: [],
 
   walletPrivateKey: process.env["PRIVATE_KEY"],
@@ -43,7 +43,7 @@ const requestConfig = {
   "WHEN SUM(POINTS) BETWEEN 151 AND 300 THEN 2\n" +
   "WHEN SUM(POINTS) > 300 THEN 3 ELSE 1 END AS SWORD  \n" +
   "FROM SXTNFT.GAME_TELEMETRY_ARTHUR \n" +
-  "GROUP BY ItemId", "SXTNFT.GAME_TELEMETRY_ARTHUR",process.env.API_URL],
+  "GROUP BY ItemId",process.env.API_URL],
 
   expectedReturnType: ReturnType.uint256,
   // Redundant URLs which point to encrypted off-chain secrets
