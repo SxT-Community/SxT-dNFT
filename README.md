@@ -158,7 +158,7 @@ API_URL = <Retrieve from SxT>
 `npx hardhat functions-request --network polygonMumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID`
 
 ** If request fails because of missing funds run this command:
-`npx hardhat functions-fund --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID`
+`npx hardhat functions-sub-fund --network polygonMumbai --subid $SUB_ID --amount <amount here>`
 
 
 -------------------------
