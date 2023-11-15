@@ -42,7 +42,7 @@
     "rdme": "^8.6.2",
     "solhint": "^3.3.7",
     "solhint-plugin-prettier": "^0.0.5",
-    "solidity-coverage": "^0.8.2",
+    "solidity-coverage": "^0.8.5",
     "typechain": "^8.1.0"
   },
   "dependencies": {
