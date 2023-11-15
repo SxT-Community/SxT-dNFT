@@ -115,6 +115,7 @@ GROUP BY ItemId;
 
 4) install packages
    `npm install`
+   `brew install deno`
 
 5) Set Envars
    `npx env-enc set`
@@ -134,24 +135,38 @@ API_URL = <Retrieve from SxT>
 9) Get contract address from previous step and set envar `CONTRACT_ADDRESS`
     `npx env-enc set` for CONTRACT_ADDRESS
 
-10) Create CL Functions Subscription and fund with link tokens
+10) Make sure you are added to the allow list from this link: https://functions.chain.link/ 
+    This will create a new subscription you can use. If you create the subscription get the subid from the page.
+    Make sure you add $CONTRACT_ADDRESS added as a consumer and fund the contract
+    ----------
+    You may need testnet tokens to create a subscription : https://mumbaifaucet.com/
+    You may need testnet link tokens to fund the subscription : https://faucets.chain.link/mumbai
+    ----------
+    If you want a brand new subscription use this command:
 
-`npx hardhat functions-sub-create --network polygonMumbai --amount <put the amount>`
+    Create CL Functions Subscription and fund with link tokens
 
-Get sub id and set envar SUB_ID
+    `npx hardhat functions-sub-create --network polygonMumbai --contract $CONTRACT_ADDRESS --amount <put the amount>`
 
-11) Make sure you are added to the allow list from this link: https://functions.chain.link/ 
+    Get sub id
+    --------    
+    If you want to add a new contract to subscription use this command:
+    `npx hardhat functions-sub-add--network polygonMumbai --contract $CONTRACT_ADDRESS --amount <put the amount>`
 
-12) Run request:
+11) Run request:
 
 `npx hardhat functions-request --network polygonMumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID`
+
+** If request fails because of missing funds run this command:
+`npx hardhat functions-fund --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID`
+
 
 -------------------------
 -------SWORD 2 ----------
 -------------------------
 ## DYNAMIC NFT
 
-13) Add more game telemetry to level up : 
+12) Add more game telemetry to level up : 
 
 INSERT INTO TEST.GAME_TELEMETRY_ARTHUR(ID, GamerId, ActionType, AchievementId, collectableId, Level_, ItemId, Points)
 VALUES (6, 1, 'Collect', '', 'PotionA', 2, 'SwordNFt', 100);
@@ -167,17 +182,15 @@ GROUP BY ItemId
 ## PUBLISH YOUR NEW DATA
 Come back to this project:
 
-14) Run request:
+13) Run request:
 
 `npx hardhat functions-request --network polygonMumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID`
-
-If request fails, Double check your ACCESS_TOKEN. You need to refresh your ACCESS_TOKEN every 30 min
 
 -------------------------
 -------SWORD 3 ----------
 -------------------------
 
-15) Add more game telemetry to level up :
+14) Add more game telemetry to level up :
 
 INSERT INTO TEST.GAME_TELEMETRY_ARTHUR(ID, GamerId, ActionType, AchievementId, collectableId, Level_, ItemId, Points)
 VALUES (7, 1, 'Collect', '', 'PotionB', 2, 'SwordNFt', 150)
@@ -199,11 +212,10 @@ GROUP BY ItemId
 Come back to this project:
  
 
-16) Run request:
+15) Run request:
 
 `npx hardhat functions-request --network polygonMumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID`
 
-If request fails, Double check your ACCESS_TOKEN. You need to refresh your ACCESS_TOKEN every 30 min
 
 
 
