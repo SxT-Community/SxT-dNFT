@@ -121,37 +121,28 @@ GROUP BY ItemId;
 
 ```
 MUMBAI_RPC_URL = <RPC_URL for mumbai network Infura or Alchemy>
-PRIVATE_KEY = <PK_THAT_HAS_ACCESS_TO_FUNCTIONS_BETA>
-ACCESS_TOKEN = <GENERATE_WITH_SXTCLI from the output of -> sxtcli authenticate login --url="https://hackathon.spaceandtime.dev/" --privateKey=$privateKey --publicKey=$publicKey --userId=$userId> 
 POLYGONSCAN_API_KEY = <go to polygon scan and generate an api key for free>
-GITHUB_API_TOKEN = <Aquire a Github personal access token which allows reading and writing Gists.
-                    Visit https://github.com/settings/tokens?type=beta and click "Generate new token"
-                    Name the token and enable read & write access for Gists from the "Account permissions" drop-down menu. Do not enable any additional permissions.
-                    Click "Generate token" and copy the resulting personal access token for step 4.>
+PRIVATE_KEY = <PK_THAT_HAS_ACCESS_TO_FUNCTIONS_BETA>
+API_KEY = <GENERATE FROM sxt UI>  
+API_URL = <Retrieve from SxT>
 ```
 
-6) Test/Simulate
-`npx hardhat functions-simulate --gaslimit 300000`
+8) Deploy
 
-7) Deploy
+`npx hardhat functions-deploy-consumer --network polygonMumbai --verify true`
 
-`npx hardhat functions-deploy-client --network mumbai --verify true`
-
-8) Get contract address from previous step and set envar `CONTRACT_ADDRESS`
+9) Get contract address from previous step and set envar `CONTRACT_ADDRESS`
     `npx env-enc set` for CONTRACT_ADDRESS
 
-9) Create CL Functions Subscription and fund with link tokens
+10) Create CL Functions Subscription and fund with link tokens
 
-`npx hardhat functions-sub-create --network mumbai --amount 2 --contract $CONTRACT_ADDRESS`
+`npx hardhat functions-sub-create --network polygonMumbai --amount <put the amount>`
 
 Get sub id and set envar SUB_ID
 
-10) Run request:
+11) Run request:
 
-`npx hardhat functions-request --network mumbai --contract $CONTRACT_ADDRESS --subid $SUB_ID --gaslimit 300000`
-
-If request fails, Double check your ACCESS_TOKEN. You need to refresh your ACCESS_TOKEN every 30 min
-
+`npx hardhat functions-request --network polygonMumbai --contract <ContractAddress> --subid <subid>`
 
 -------------------------
 -------SWORD 2 ----------
