@@ -151,7 +151,7 @@ API_URL = <Retrieve from SxT>
     Get sub id
     --------    
     If you want to add a new contract to subscription use this command:
-    `npx hardhat functions-sub-add--network polygonMumbai --contract $CONTRACT_ADDRESS --amount <put the amount>`
+    `npx hardhat functions-sub-add--network polygonMumbai --contract $CONTRACT_ADDRESS`
 
 11) Run request:
 
