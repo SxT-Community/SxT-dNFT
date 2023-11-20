@@ -4,33 +4,21 @@ pragma solidity ^0.8.19;
 import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/dev/v1_0_0/FunctionsClient.sol";
 import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/dev/v1_0_0/libraries/FunctionsRequest.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/utils/Base64.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-
 
 /**
  * @title Chainlink Functions example on-demand consumer contract example
  */
-contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage  {
+contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
   using FunctionsRequest for FunctionsRequest.Request;
-  using Counters for Counters.Counter;
 
-  Counters.Counter private _tokenIdCounter;
   bytes32 public donId; // DON ID for the Functions DON to which the requests are sent
 
   bytes32 public s_lastRequestId;
   bytes public s_lastResponse;
   bytes public s_lastError;
-  uint256 public SxTId;
 
-  event SxTNFT(string name, uint256 id);
-
-  event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
-  constructor(address router, bytes32 _donId) FunctionsClient(router) ConfirmedOwner(msg.sender) ERC721("Space & Time dNFT", "SXT-DNFT") {
+  constructor(address router, bytes32 _donId) FunctionsClient(router) ConfirmedOwner(msg.sender) {
     donId = _donId;
-    _safeMint(msg.sender, 0);
   }
 
   /**
@@ -83,23 +71,5 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner, ERC721URIStorage 
   function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal override {
     s_lastResponse = response;
     s_lastError = err;
-    SxTId = abi.decode(response, (uint256));
   }
-
-  function mintNFT(address to) public onlyOwner {
-    _tokenIdCounter.increment();
-    _safeMint(to, _tokenIdCounter.current());
-  }
-
-  function tokenURI(uint256) public view override(ERC721URIStorage) returns (string memory) {
-    string memory baseURL = "https://blush-cognitive-shrimp-280.mypinata.cloud/ipfs/QmYxCeAjwBiAHUztrFGt3e4ZZEV8txJdYSzVdk6YTWn84j/";
-    return  string(abi.encodePacked(baseURL, string(Strings.toString(SxTId))));
-  }
-
-
-  // The following function is an override required by Solidity.
-  function _burn(uint256 tokenId) internal override(ERC721URIStorage) {
-    super._burn(tokenId);
-  }
-
 }

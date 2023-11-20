@@ -1,18 +1,19 @@
 
 const sqlText = args[0]
-const resourceId = args[1]
+const API = args[1]
 
 const response = await Functions.makeHttpRequest({
-  url: "https://<SxT-API-URL>/v1/sql/dql",
+  url: API,
   method: "POST",
   timeout: 9000,
   headers: {
-    'Authorization': `Bearer ${ secrets.accessToken }`,
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "apikey": secrets.apiKey,
   },
-  data: { "resourceId": resourceId, "sqlText": sqlText }
+  data: { "sqlText": sqlText }
 })
 const responseData = response.data
+console.log(response.data)
 const arrayResponse = Object.keys(responseData[0]).map((key) => `${responseData[0][key]}`);
 
 console.log("Full response from SxT API:", response)
